@@ -51,7 +51,6 @@ def password_gate():
         return True
     expected = _secret("APP_PASSWORD")
     if not expected:
-        # 未设置密码 → 直接放行
         return True
 
     st.title("📔 我的日记本")
@@ -223,6 +222,13 @@ st.markdown("""
     --c-muted: rgba(128, 128, 128, 0.85);
 }
 
+/* 快捷键提示（桌面显示，手机隐藏） */
+.kbd-hint {
+    font-size: 0.85rem;
+    color: var(--c-muted);
+    margin-bottom: 6px;
+}
+
 /* 心情圆圈 */
 [class*="st-key-mood_picker"] .stButton > button {
     border-radius: 50% !important;
@@ -331,6 +337,78 @@ div[data-testid="stColumn"] div[data-testid="stMarkdownContainer"] > p {
 [class*="st-key-calEtoday"] button:hover {
     box-shadow: inset 0 0 0 2px var(--c-border-soft),
                 0 0 0 2px rgba(var(--c-accent-rgb), 0.45) !important;
+}
+
+/* ===== 移动端适配（窄屏 < 768px）===== */
+@media (max-width: 768px) {
+    .block-container,
+    [data-testid="stAppViewContainer"] > .main > .block-container {
+        padding: 0.6rem 0.6rem 2rem 0.6rem !important;
+        max-width: 100% !important;
+    }
+
+    h1 {
+        font-size: 1.45rem !important;
+        margin-bottom: 0.4rem !important;
+    }
+    h2 { font-size: 1.15rem !important; }
+    h3 { font-size: 1rem !important; }
+
+    .stat-card {
+        padding: 8px 3px !important;
+        border-radius: 8px !important;
+    }
+    .stat-card .num { font-size: 16px !important; }
+    .stat-card .label {
+        font-size: 9px !important;
+        margin-top: 1px !important;
+    }
+
+    [class*="st-key-mood_picker"] .stButton > button {
+        width: 46px !important;
+        height: 46px !important;
+        min-width: 46px !important;
+        font-size: 22px !important;
+    }
+
+    [class*="st-key-calL"] button,
+    [class*="st-key-calE"] button {
+        height: 34px !important;
+        min-height: 34px !important;
+        max-height: 34px !important;
+        border-radius: 6px !important;
+    }
+
+    div[data-testid="stHorizontalBlock"] {
+        gap: 4px !important;
+    }
+
+    .stButton > button {
+        padding: 0.45rem 0.6rem !important;
+        font-size: 0.88rem !important;
+    }
+
+    [data-testid="stExpander"] summary {
+        font-size: 0.88rem !important;
+    }
+
+    input, textarea, select,
+    .stTextInput input, .stTextArea textarea {
+        font-size: 16px !important;
+    }
+
+    .tag-badge {
+        font-size: 11px !important;
+        padding: 1px 7px !important;
+    }
+
+    hr { margin: 0.5rem 0 !important; }
+
+    [data-testid="stFileUploader"] {
+        font-size: 0.88rem !important;
+    }
+
+    .kbd-hint { display: none !important; }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -460,7 +538,10 @@ if page == "✍️ 写日记":
             with cols[i % 3]:
                 st.image(f, use_container_width=True)
 
-    st.caption("💡 按 **Ctrl+Enter**（Mac 是 ⌘+Enter）也能保存")
+    st.markdown(
+        "<div class='kbd-hint'>💡 按 <b>Ctrl+Enter</b>（Mac 是 <b>⌘+Enter</b>）也能保存</div>",
+        unsafe_allow_html=True,
+    )
     btn_label = "💾 更新日记" if editing_id else "💾 保存日记"
     if st.button(btn_label, use_container_width=True, type="primary"):
         if not content.strip():
