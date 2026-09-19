@@ -1,0 +1,11 @@
+# 敏感信息
+.streamlit/secrets.toml
+
+# 本地数据（如果你用 GitHub 存储就不需要提交这些）
+diary.json
+images/
+diary_backup_*.json
+
+# Python
+__pycache__/
+*.pyc
