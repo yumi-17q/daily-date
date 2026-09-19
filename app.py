@@ -341,6 +341,21 @@ div[data-testid="stColumn"] div[data-testid="stMarkdownContainer"] > p {
 
 /* ===== 移动端适配（窄屏 < 768px）===== */
 @media (max-width: 768px) {
+    /* 关键：禁止所有横向列换行 → 防止 Streamlit 自动堆叠 */
+    div[data-testid="stHorizontalBlock"] {
+        flex-wrap: nowrap !important;
+    }
+    /* 允许列收缩，均分宽度 */
+    div[data-testid="stColumn"],
+    div[data-testid="column"] {
+        min-width: 0 !important;
+        width: auto !important;
+        flex-shrink: 1 !important;
+        flex-grow: 1 !important;
+        flex-basis: 0 !important;
+        padding: 0 !important;
+    }
+
     .block-container,
     [data-testid="stAppViewContainer"] > .main > .block-container {
         padding: 0.6rem 0.6rem 2rem 0.6rem !important;
@@ -354,6 +369,7 @@ div[data-testid="stColumn"] div[data-testid="stMarkdownContainer"] > p {
     h2 { font-size: 1.15rem !important; }
     h3 { font-size: 1rem !important; }
 
+    /* 统计卡片 */
     .stat-card {
         padding: 8px 3px !important;
         border-radius: 8px !important;
@@ -364,13 +380,16 @@ div[data-testid="stColumn"] div[data-testid="stMarkdownContainer"] > p {
         margin-top: 1px !important;
     }
 
+    /* 心情圆圈缩小 */
     [class*="st-key-mood_picker"] .stButton > button {
-        width: 46px !important;
-        height: 46px !important;
-        min-width: 46px !important;
-        font-size: 22px !important;
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        font-size: 20px !important;
+        border-width: 1.5px !important;
     }
 
+    /* 日历格子更矮 */
     [class*="st-key-calL"] button,
     [class*="st-key-calE"] button {
         height: 34px !important;
@@ -379,19 +398,23 @@ div[data-testid="stColumn"] div[data-testid="stMarkdownContainer"] > p {
         border-radius: 6px !important;
     }
 
+    /* 列间距 */
     div[data-testid="stHorizontalBlock"] {
         gap: 4px !important;
     }
 
+    /* 按钮字号 */
     .stButton > button {
         padding: 0.45rem 0.6rem !important;
         font-size: 0.88rem !important;
     }
 
+    /* expander 标题 */
     [data-testid="stExpander"] summary {
         font-size: 0.88rem !important;
     }
 
+    /* iOS 输入框 16px 防缩放 */
     input, textarea, select,
     .stTextInput input, .stTextArea textarea {
         font-size: 16px !important;
